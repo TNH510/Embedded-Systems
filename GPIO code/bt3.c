@@ -1,6 +1,3 @@
-/*Vi?t code d? nút BT1 có ch?c nang ch?n màu hi?n th?, 
-BT2 tang d? sáng c?a màu hi?n th?, BT3
-gi?m d? sáng c?a màu hi?n th?*/
 
 #include <stdio.h>
 #include <wiringPi.h>
