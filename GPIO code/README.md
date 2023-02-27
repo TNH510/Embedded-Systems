@@ -1,7 +1,7 @@
 
 ĐỀ BÀI:
-Chỉnh sửa
 Cho sơ đồ mạch bao gồm Rasp, Led RGB và Module 4 nút nhấn.
+
 Bài 1: Viết code để các đèn led R,G,B lần lượt sáng dần rồi tối dần. Thời gian sáng dần và tối dần là 2s.
 
 Bài 2: Viết code để 4 nút nhấn điều khiển độ sáng của đèn, với BT1 -> sáng yếu nhất, BT4 sáng nhất.
