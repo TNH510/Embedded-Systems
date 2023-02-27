@@ -1,14 +1,3 @@
-/*Bài 5: Ban d?u c? 3 led d?u t?t. Ng?u nhiên led R sáng trong 1s r?i t?t. 
-Ngu?i choi du?c yêu c?u nh?n
-BT1 ngay sau khi led R sáng. N?u ngu?i choi k?p nh?n trong 1s, led R s? t?t, 
-terminal hi?n th? th?i gian t?
-lúc led R sáng cho d?n khi BT1 du?c nh?n. N?u ngu?i choi không k?p nh?n, dèn 
-d? s? t?t sau 1s, và
-terminal hi?n th? thông báo “...”. Sau khi led R t?t t? 1-3s, led R s? ng?u 
-nhiên sáng tr? l?i. Quá trình này
-l?p di l?p l?i 10 l?n. Sau 10 l?n terminal hi?n th? th?i gian nh?n trung bình 
-c?a ngu?i choi.*/
-
 #include <stdio.h>
 #include <wiringPi.h>
 #include <softPwm.h>
@@ -136,8 +125,8 @@ int main(void)
 			point = (int)(point/10);
 			printf("Time trung binh: %d ms\n ----------------- \n ", point); 
 			fflush(stdout);
-			if (point < 300) {printf("B?n r?t t?nh d?y :>"); fflush(stdout);}
-			if (point >= 300 ) {printf("Mày say r?i con:)"); fflush(stdout);}
+			if (point < 300) {printf("Bạn rất tỉnh đấy :>"); fflush(stdout);}
+			if (point >= 300 ) {printf("Mày say rồi con:)"); fflush(stdout);}
 			
 			//Hien thi den xanh de nguoi dung biet
 			light_up(G);
