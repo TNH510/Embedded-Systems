@@ -1,7 +1,3 @@
-/*Ng?u nhiên m?t trong 3 dèn R,G,B sáng m?i 3s. N?u trong 500ms ngu?i choi k?p nh?n nút tuong
-?ng thì dèn led s? t?t và c? 3 dèn s? ch?p nháy trong 1s. N?u ngu?i choi không k?p nh?n nút thì dèn t?t.
-K?t qu? s? du?c c?p nh?p trên terminal sau m?i l?n dèn sáng.
-V?i (BT1 -> R; BT2 ->G; BT3 -> B)*/
 
 #include <stdio.h>
 #include <wiringPi.h>
