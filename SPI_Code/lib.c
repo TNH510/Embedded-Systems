@@ -9,6 +9,18 @@
 #include <stdlib.h>
 
 unsigned int number_7seg[10] = {0x7e, 0x30, 0x6d, 0x79, 0x33, 0x5b, 0x5f, 0x70, 0x7f, 0x7b};
+unsigned char font[][2] = {
+  {'A',0b1110111},{'B',0b1111111},{'C',0b1001110},{'D',0b1111110},{'E',0b1001111},{'F',0b1000111},       
+  {'G',0b1011110},{'H',0b0110111},{'I',0b0110000},{'J',0b0111100},{'L',0b0001110},{'N',0b1110110},       
+  {'O',0b1111110},{'P',0b1100111},{'R',0b0000101},{'S',0b1011011},{'T',0b0001111},{'U',0b0111110},       
+  {'Y',0b0100111},{'[',0b1001110},{']',0b1111000},{'_',0b0001000},{'a',0b1110111},{'b',0b0011111},       
+  {'c',0b0001101},{'d',0b0111101},{'e',0b1001111},{'f',0b1000111},{'g',0b1011110},{'h',0b0010111},       
+  {'i',0b0010000},{'j',0b0111100},{'l',0b0001110},{'n',0b0010101},{'o',0b0011101},{'p',0b1100111},       
+  {'r',0b0000101},{'s',0b1011011},{'t',0b0001111},{'u',0b0011100},{'y',0b0100111},{'-',0b0000001},
+  {' ',0b0000000},{'0',0b1111110},{'1',0b0110000},{'2',0b1101101},{'3',0b1111001},{'4',0b0110011},
+  {'5',0b1011011},{'6',0b1011111},{'7',0b1110000},{'8',0b1111111},{'9',0b1111011},{'V',0b0111110},
+  {'.',0b10000000},{'?',0b1100101},{'\0',0b0000000},};
+
 typedef enum { false, true } bool;
 #define R 0//11
 #define G 1//12
@@ -142,36 +154,47 @@ void test_display(bool select)
 }
 //Hien thi ki tu bat ki tai o bat ki
 void display_number(unsigned int position, unsigned int number)
-{
-	decode_mode(true);
+{	
 	sendData(position, number);
 }
+
+
+//Hien thi ngay thang nam
+unsigned int font_display(char text){
+	for(int i = 0; font[i][0] != '\0'; i++)
+	{
+		if(font[i][0] == text)
+		{
+			return font[i][1];
+		}
+	}
+}
+
 //Move right, move left 8 char in screen
-void move_left(char string[8], bool is_left, unsigned int solanchay,
+void move_left(unsigned char string[100], bool is_left, unsigned int solanchay,
 				unsigned int time_milisec)
 {
-	decode_mode(true);
-	unsigned int m[8] = {8,7,6,5,4,3,2,1};
+	decode_mode(false);
+	unsigned int length;
+	unsigned int m[20] = {20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1};
+	length = strlen(string);
 	/**/
 	
 	if (is_left == false)
 	{
-		for (int i = 0; i < solanchay*8; i ++)
+		for (int i = 0; i < solanchay*length; i ++)
 		{	
 			
-			sendData(m[0], string[0]);
-			sendData(m[1], string[1]);
-			sendData(m[2], string[2]);
-			sendData(m[3], string[3]);
-			sendData(m[4], string[4]);
-			sendData(m[5], string[5]);
-			sendData(m[6], string[6]);
-			sendData(m[7], string[7]);
+			for (int x = 0; x < length; x++)
+			{
+				if (m[x] < 9)
+				sendData(m[x], font_display(string[x]));
+			}
 		
-			for (int j = 0; j<=7; j++)
+			for (int j = 0; j < length; j++)
 			{
 				m[j] = m[j] - 1;
-				if (m[j] < 1) m[j] = 8;
+				if (m[j] < 1) m[j] = length;
 			}
 			
 			delay(time_milisec);
@@ -183,14 +206,8 @@ void move_left(char string[8], bool is_left, unsigned int solanchay,
 	{	for (int i = 0; i < solanchay*8; i ++)
 		{	
 			
-			sendData(m[0], string[0]);
-			sendData(m[1], string[1]);
-			sendData(m[2], string[2]);
-			sendData(m[3], string[3]);
-			sendData(m[4], string[4]);
-			sendData(m[5], string[5]);
-			sendData(m[6], string[6]);
-			sendData(m[7], string[7]);
+			for (int x = 0; x < 8; x++)
+			sendData(m[x], font_display(string[x]));
 		
 			for (int j = 0; j<=7; j++)
 			{
@@ -205,8 +222,19 @@ void move_left(char string[8], bool is_left, unsigned int solanchay,
 	
 }
 
-//Hien thi ngay thang nam
-
+void light_up(char LED)
+{
+	for (int i = 0; i< 100; i++)
+	{
+		softPwmWrite(LED, i);
+		delay(10);
+	}
+	for (int i = 0; i< 100; i++)
+	{
+		softPwmWrite(LED, 100 - i);
+		delay(10);
+	}
+}
 
 
 
