@@ -1,3 +1,14 @@
+/*
+Nhap gia tri do sang, kenh mau R,G,B --> LED sang theo yeu cau
+Sau do LED chuyen qua lai giua 2 che do NHAP NHAY va TANG GIAM DO SANG (khoang thoi gian 
+chuyen giua 2 che do la ngau nhien tu 2 den 3 giay)
+Yeu cau chuyen doi qua lai giua 2 che do thi van giu nguyen do sang/mau sac
+
+Set thoi gian hen gio bat tat
+Bat neu nhap "on hh:mm" hh la gio, mm la phut
+Tat neu nhap "off hh:mm"
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
@@ -87,9 +98,9 @@ int main(void)
 	
 		//Lay thoi gian hien tai
 		time_t rawtime;
-        struct tm *ct;
-        time (&rawtime);
-        ct = localtime (&rawtime);
+        	struct tm *ct;
+       		time (&rawtime);
+        	ct = localtime (&rawtime);
 		printf("Gio hien tai la:\n");
 		printf ("%02d:%02d:%02d\n",ct->tm_hour,ct->tm_min,ct->tm_sec);
 		fflush(stdout);
