@@ -1,3 +1,10 @@
+/*
+Phan cung gom co LED RGB, 2 button.
+Yeu cau nhan button 1, do sang LED se thay doi
+Nhan button 2 se chuyen qua lai 2 che do: NHAP NHAY LED va DOI MAU LED (10 mau)
+Nhan giu button 1 trong 2 giay, LED se tat
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
