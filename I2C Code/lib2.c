@@ -194,7 +194,7 @@ void move_left(unsigned char string[100], bool is_left, unsigned int solanchay,
 			
 			for (int x = 0; x < length; x++)
 			{
-				if (m[x] < 9)
+				if ((m[x] < 9)&(m[x] > 4))
 				sendData(m[x], font_display(string[x]));
 			}
 		
