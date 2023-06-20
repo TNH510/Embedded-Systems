@@ -1,14 +1,14 @@
-void get_statusD1D2(){
-  String d1,d2;
-  if(digitalRead(D1)==1){
-    d1 = "OFF";
+void get_statusRG(){
+  String r,g;
+  if(digitalRead(R)==0){
+    r = "OFF";
   }else{
-    d1 = "ON";
+    r = "ON";
   }
-  if(digitalRead(D2)==1){
-    d2 = "OFF";
+  if(digitalRead(G)==0){
+    g = "OFF";
   }else{
-    d2 = "ON";
+    g = "ON";
   }
-  String s = "{\"D1\": \""+ d1 +"\",\"D2\": \""+ d2 +"\"}";
+  String s = "{\"R\": \""+ r +"\",\"G\": \""+ g +"\"}";
   webServer.send(200,"application/json",s);
