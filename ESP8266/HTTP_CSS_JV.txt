@@ -4,15 +4,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 ESP8266WebServer webServer(80);
-
-//Set up Station Mode
 char* ssid = "405";
 char* pass = "1234567890";
-
+//=========Biến chứa mã HTLM Website==//
 const char MainPage[] PROGMEM = R"=====(
-   <!DOCTYPE html>
-   <html>
-    <head>
+  <!DOCTYPE html> 
+  <html>
+   <head> 
        <title>HOME PAGE</title> 
        <style> 
           body {text-align:center;}
@@ -22,9 +20,8 @@ const char MainPage[] PROGMEM = R"=====(
           .bt_off {height:50px; width:100px; margin:10px 0;background-color:#00FF00;border-radius:5px;}
        </style>
        <meta charset="UTF-8">
-    </head>
-
-    <body>
+   </head>
+   <body> 
       <h1>ESP8266 Web Server</h1> 
       <div>Trạng thái trên chân R: <b><pan id="trangthaiR"><pan></b></div>
       <div>
@@ -38,23 +35,19 @@ const char MainPage[] PROGMEM = R"=====(
       </div>
       <div id="reponsetext"></div>
       <script>
-        //------Tao doi tuong request---------//
-        function create_obj()
-        {
+        //-----------Tạo đối tượng request----------------
+        function create_obj(){
           td = navigator.appName;
-          if (td == "Microsoft Internet Explorer")
-          { 
-            obj = new ActiveXObject("Microsoft.XMLHTTP");  
-          }  
-          else
-          {
-            obj = new XMLHttpRequest();  
+          if (td == "Microsoft Internet Explorer"){
+            obj = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          else{
+            obj = new XMLHttpRequest();
           }
           return obj;
         }
-        var xhttp= create_obj();
-
-       //-----------Thiết lập dữ liệu và gửi request-------
+        var xhttp = create_obj();
+        //-----------Thiết lập dữ liệu và gửi request-------
         function getdata(url){
           xhttp.open("GET","/"+url,true);
           xhttp.onreadystatechange = process;//nhận reponse 
@@ -68,8 +61,8 @@ const char MainPage[] PROGMEM = R"=====(
             document.getElementById("reponsetext").innerHTML=ketqua;       
           }
         }
-        //------------Kiểm tra trạng thái chân D1 D2------
-        function getstatusD1D2(){
+        //------------Kiểm tra trạng thái chân R G------
+        function getstatusRG(){
           xhttp.open("GET","getstatusRG",true);
           xhttp.onreadystatechange = process_json;
           xhttp.send();
@@ -88,20 +81,16 @@ const char MainPage[] PROGMEM = R"=====(
         setInterval(function() {
           getstatusRG();
         }, 1000);
-      </script>   
-    </body>
-   </html>
-)====="; 
+      </script>
+   </body> 
+  </html>
+)=====";
 
-void setup()
-{
-  //Khai bao chan R,G la OUTPUT
-  pinMode(R, OUTPUT);
-  pinMode(G, OUTPUT);
-  digitalWrite(R, LOW);
-  digitalWrite(G, LOW);
-  
-  //Thiet lap ket noi mang wifi
+void setup() {
+  pinMode(R,OUTPUT);
+  pinMode(G,OUTPUT);
+  digitalWrite(R,HIGH);
+  digitalWrite(G,HIGH);
   WiFi.begin(ssid,pass);
   Serial.begin(9600);
   Serial.print("Connecting");
@@ -110,48 +99,39 @@ void setup()
     Serial.print("...");
   }
   Serial.println(WiFi.localIP());
-  
-  webServer.on("/", mainpage);
-  webServer.on("/onR", onR);
-  webServer.on("/offR", offR);
-  webServer.on("/onG", onG);
-  webServer.on("/offG", offG);
-  webServer.on("/getstatusRG",get_statusRG);
-  webServer.begin();        
-}
 
-void loop()
-{
+  webServer.on("/",mainpage);
+  webServer.on("/onR",on_R);
+  webServer.on("/offR",off_R);
+  webServer.on("/onG",on_G);
+  webServer.on("/offG",off_G);
+  webServer.on("/getstatusRG",get_statusRG);
+  webServer.begin();
+}
+void loop() {
   webServer.handleClient();
 }
-// Chuong trinh phuc vu webserver
-void mainpage()
-{
+//==========Chương trình con=================//
+void mainpage(){
   String s = FPSTR(MainPage);
-  webServer.send(200, "text/html", s);  
+  webServer.send(200,"text/html",s);
 }
-void onR()
-{
-  digitalWrite(R, HIGH);
+void on_R(){
+  digitalWrite(R,HIGH);
   webServer.send(200,"text/html","CHÂN R ĐÃ ON");
-    
 }
-void offR()
-{
-  digitalWrite(R, LOW);
+void off_R(){
+  digitalWrite(R,LOW);
   webServer.send(200,"text/html","CHÂN R ĐÃ OFF");
 }
-void onG()
-{
-  digitalWrite(G, HIGH);
+void on_G(){
+  digitalWrite(G,HIGH);
   webServer.send(200,"text/html","CHÂN G ĐÃ ON");
 }
-void offG()
-{
-  digitalWrite(G, LOW);
+void off_G(){
+  digitalWrite(G,LOW);
   webServer.send(200,"text/html","CHÂN G ĐÃ OFF");
 }
-
 void get_statusRG(){
   String r,g;
   if(digitalRead(R)==0){
@@ -167,7 +147,3 @@ void get_statusRG(){
   String s = "{\"R\": \""+ r +"\",\"G\": \""+ g +"\"}";
   webServer.send(200,"application/json",s);
 }
-
-
-
-
